@@ -20,14 +20,14 @@ public class Main {
             Reiziger r3 = new Reiziger();
 
             Date datum1 = new SimpleDateFormat("dd/MM/yyyy").parse("17/04/2019");
-            r1.setNaam("S Echtelt");
+            r1.setNaam("Jan Willem");
             r1.setGBdatum(datum1);
             r1 = db.save(r1);
 
-            r2.setNaam("T test");
+            r2.setNaam("Test");
             r2 = db.save(r2);
 
-            r3.setNaam("Y Test2");
+            r3.setNaam("TESTTEST");
             r3 = db.save(r3);
 
             for (Reiziger r : db.findAll()) {
@@ -36,10 +36,10 @@ public class Main {
 
             System.out.println("all done");
 
-            r1.setNaam("X Echtelt");
+            r1.setNaam("BLABLA BEUTLER");
             db.update(r1);
 
-            for (Reiziger r : db.findByGBdatum("03-12-2002")) {
+            for (Reiziger r : db.findByGBdatum("03-12-1997")) {
                 System.out.println(r.getNaam());
             }
             System.out.println("by date done");
