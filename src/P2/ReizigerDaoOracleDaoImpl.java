@@ -1,3 +1,6 @@
+//1719032 Jan Willem Beutler
+//P2: DAO één op veel relatie
+
 package P2;
 
 import java.sql.Connection;
@@ -23,9 +26,8 @@ public class ReizigerDaoOracleDaoImpl extends OracleBaseDao implements ReizigerD
         try {
             Connection myConn = getConnection();
             Statement myStmt = myConn.createStatement();
-            String strQuery = "SELECT * FROM REIZIGER WHERE geboortedatum = to_date(" + "'" + GBdatum + "'" + ", 'DD-MM-YYYY')";
+            String strQuery = "SELECT * FROM REIZIGER WHERE gebortedatum = to_date(" + "'" + GBdatum + "'" + ", 'DD-MM-YYYY')";
             ResultSet rs = myStmt.executeQuery(strQuery);
-
 
             while(rs.next()) {
                 Reiziger reiziger = new Reiziger();
@@ -49,7 +51,29 @@ public class ReizigerDaoOracleDaoImpl extends OracleBaseDao implements ReizigerD
 
     @Override
     public Reiziger save(Reiziger reiziger) {
-        return null;
+        try {
+            int reizigeridint = 0;
+            Connection myConn = getConnection();
+            Statement myStmt = myConn.createStatement();
+            ResultSet myRs = myStmt.executeQuery("SELECT * FROM reiziger ORDER BY reizigerid");
+            while (myRs.next()) {
+                reizigeridint = myRs.getInt("reizigerid");
+            }
+            reizigeridint = reizigeridint + 1;
+            reiziger.setReizigerId(reizigeridint);
+            String voorletter = reiziger.getNaam();
+            voorletter = Character.toString(voorletter.charAt(0));
+            String[] naam = reiziger.getNaam().split(" ");
+            String achternaam = naam[1];
+            Statement insertStmt = myConn.createStatement();
+            insertStmt.executeQuery("INSERT INTO reiziger(reizigerid, voorletters, achternaam)	VALUES('"+ reizigeridint + "','" + voorletter + "','" + achternaam +  "')");
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        return reiziger;
+
     }
 
     @Override
