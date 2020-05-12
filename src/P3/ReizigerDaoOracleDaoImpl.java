@@ -74,7 +74,7 @@ public class ReizigerDaoOracleDaoImpl extends OracleBaseDao implements ReizigerD
             exc.printStackTrace();
         }
 
-        return reiziger;    }
+        return reiziger;     }
 
     @Override
     public Reiziger update(Reiziger reiziger) {
